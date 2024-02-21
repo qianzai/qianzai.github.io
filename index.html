@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -10,12 +11,13 @@
 
     h1 {
       text-align: center;
+      margin-top: 20px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 20px auto;
+      margin: 10px auto;
     }
 
     th, td {
@@ -29,13 +31,23 @@
     }
 
     a {
-      text-decoration: underline; /* 添加下划线 */
-      color: #007bff; /* 将超链接字体颜色改为浅蓝色 */
+      text-decoration: underline;
+      color: #007bff;
       font-weight: bold;
     }
 
     a:hover {
-      color: #0056b3; /* 悬停时将字体颜色更改为深蓝色 */
+      color: #0056b3;
+    }
+
+    @media screen and (max-width: 600px) {
+      table, th, td {
+        font-size: 14px;
+      }
+
+      th, td {
+        padding: 6px;
+      }
     }
   </style>
 </head>
