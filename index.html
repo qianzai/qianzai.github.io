@@ -7,6 +7,7 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      font-size: 14px;
     }
 
     h1 {
@@ -26,13 +27,7 @@
       padding: 8px;
     }
 
-    th {
-      font-weight: bold;
-      text-align: center;
-    }
-
-    td:nth-child(1),
-    td:nth-child(2) {
+    th, td:nth-child(1), td:nth-child(2) {
       text-align: center;
     }
 
@@ -43,70 +38,74 @@
     a {
       text-decoration: underline;
       color: #007bff;
-      font-weight: bold;
     }
 
     a:hover {
       color: #0056b3;
     }
 
-    input[type="text"] {
-      width: 100%;
+    select, input[type="text"] {
+      width: calc(50% - 10px);
       padding: 6px;
-      margin-bottom: 10px;
+      margin-top: 10px;
       box-sizing: border-box;
     }
 
-    select {
+    .search-container {
+      display: flex;
       margin-top: 10px;
+      justify-content: space-between;
     }
   </style>
 </head>
 <body>
 <h1>雨恋女陪殿</h1>
 
-<p><b>联系方式：<b><a href="https://docs.qq.com/doc/DSE1vbHdVdUVaWUxt">【腾讯文档】雨恋❤q点单群</a></p>
+<p><b>联系方式：</b><a href="https://docs.qq.com/doc/DSE1vbHdVdUVaWUxt">【腾讯文档】雨恋❤q点单群</a></p>
 
-<label for="tagSelect">选择陪陪标签:</label>
-<select id="tagSelect" onchange="filterByTag()">
-  <option value="视频陪">视频陪</option>
-  <option value="女喘陪">女喘陪</option>
-  <option value="绿色陪">绿色陪</option>
-</select>
+<div class="search-container">
+  <select id="tagSelect" onchange="filterByTag()">
+    <option value="视频陪">视频陪</option>
+    <option value="女喘陪">女喘陪</option>
+    <option value="绿色陪">绿色陪</option>
+  </select>
+
+  <input type="text" id="keywordInput" placeholder="关键字搜索" oninput="filterByKeyword()">
+</div>
 
 <table id="myTable">
     <tr>
-      <th><b>陪陪昵称</b></th>
+      <th>陪陪昵称</th>
       <th>社交媒体</th>
       <th>简介</th>
     </tr>
     <tr data-tags="视频陪">
-      <td><b>小琪</b></td>
+      <td>小琪</td>
       <td><a href="https://twitter.com/lolimg67">twi</a></td>
       <td>🚪188（送视频单10min），有各种丝袜 衣服洛丽塔/汉服/jk都有</td>
     </tr>
     <tr data-tags="视频陪">
-      <td><b>小熊</b></td>
+      <td>小熊</td>
       <td><a href="https://twitter.com/mgxiaoxiong">twi</a></td>
       <td></td>
     </tr>
     <tr data-tags="视频陪">
-      <td><b>慢慢</b></td>
+      <td>慢慢</td>
       <td><a href="https://twitter.com/LoveMeoRou">twi</a></td>
       <td></td>
     </tr>
     <tr data-tags="视频陪">
-      <td><b>小酒</b></td>
+      <td>小酒</td>
       <td><a href="https://twitter.com/xiaojiu06">twi</a></td>
       <td></td>
     </tr>
     <tr data-tags="女喘陪">
-      <td><b>乖</b></td>
-      <td></td>
+      <td>乖</td>
+      <td><a href="https://twitter.com/xiaoxiao474">twi</a></td>
       <td></td>
     </tr>
     <tr data-tags="绿色陪">
-      <td><b>十四</b></td>
+      <td>十四</td>
       <td></td>
       <td></td>
     </tr>
@@ -119,11 +118,24 @@
 
     for (var i = 1; i < rows.length; i++) {
       var tags = rows[i].getAttribute("data-tags").split(" ");
-      if (tags.includes(selectedTag)) {
-        rows[i].style.display = "";
-      } else {
-        rows[i].style.display = "none";
+      rows[i].style.display = tags.includes(selectedTag) ? "" : "none";
+    }
+  }
+
+  function filterByKeyword() {
+    var keyword = document.getElementById("keywordInput").value.toUpperCase();
+    var rows = document.getElementById("myTable").getElementsByTagName("tr");
+
+    for (var i = 1; i < rows.length; i++) {
+      var cells = rows[i].getElementsByTagName("td");
+      var found = false;
+      for (var j = 0; j < cells.length; j++) {
+        if (cells[j].textContent.toUpperCase().indexOf(keyword) > -1) {
+          found = true;
+          break;
+        }
       }
+      rows[i].style.display = found ? "" : "none";
     }
   }
 </script>
