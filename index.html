@@ -8,11 +8,20 @@
       margin: 0;
       padding: 0;
       font-size: 14px;
+      color: #333; /* 设置文本颜色为深灰色 */
     }
 
     h1 {
       text-align: center;
       margin-top: 20px;
+    }
+
+    .info {
+      margin-bottom: 20px; /* 底部留出一些空间 */
+      font-size: 12px; /* 字体稍微小一点 */
+      border: 1px solid #ccc; /* 添加灰色边框 */
+      padding: 10px; /* 添加内边距 */
+      display: none; /* 初始隐藏 */
     }
 
     table {
@@ -27,7 +36,7 @@
       padding: 8px;
     }
 
-    th, td:nth-child(1), td:nth-child(2) {
+    th:nth-child(1), th:nth-child(2), td:nth-child(1), td:nth-child(2) {
       text-align: center;
     }
 
@@ -45,7 +54,7 @@
     }
 
     select, input[type="text"] {
-      width: calc(50% - 10px);
+      width: calc(45% - 5px); /* 调整搜索框宽度 */
       padding: 6px;
       margin-top: 10px;
       box-sizing: border-box;
@@ -55,6 +64,35 @@
       display: flex;
       margin-top: 10px;
       justify-content: space-between;
+      align-items: center; /* 垂直居中 */
+    }
+
+    .space {
+      width: 10px; /* 增加间距 */
+    }
+
+    td:nth-child(3) {
+      font-size: 12px; /* 改为原大小的一半 */
+    }
+
+    th:nth-child(2), td:nth-child(2) {
+      white-space: nowrap; /* 社媒两个字不换行 */
+    }
+
+    td:nth-child(1) {
+      white-space: nowrap; /* 陪陪昵称不换行 */
+    }
+
+    .video, .video + span {
+      color: #ff7f0e; /* 视频陪昵称橙色 */
+    }
+
+    .audio, .audio + span {
+      color: #ff7f0e; /* 女喘陪昵称橙色 */
+    }
+
+    .green, .green + span {
+      color: #008000; /* 绿色陪昵称绿色 */
     }
   </style>
 </head>
@@ -62,6 +100,14 @@
 <h1>雨恋女陪殿</h1>
 
 <p><b>联系方式：</b><a href="https://docs.qq.com/doc/DSE1vbHdVdUVaWUxt">【腾讯文档】雨恋❤q点单群</a></p>
+
+<button onclick="toggleInfo()">显示陪陪类说明</button>
+
+<div class="info">
+  <p><b><span class="video">视频陪</span>:</b> 会接视频11（没标住接露脸，都是不接露脸）</p>
+  <p><b><span class="audio">女喘陪</span>:</b> 会接磕炮，但不接颜色视频</p>
+  <p><b><span class="green">绿色陪</span>:</b> 只接绿色单子，要搞颜色别找</p>
+</div>
 
 <div class="search-container">
   <select id="tagSelect" onchange="filterByTag()">
@@ -74,69 +120,62 @@
 </div>
 
 <table id="myTable">
+  <thead>
     <tr>
-      <th>陪陪昵称</th>
-      <th>社交媒体</th>
+      <th>昵称</th>
+      <th>社媒</th>
       <th>简介</th>
     </tr>
-    <tr data-tags="视频陪">
-      <td>小琪</td>
+  </thead>
+  <tbody>
+    <tr class="video" data-tags="视频陪">
+      <td>𝙔𝙡.小琪</td>
       <td><a href="https://twitter.com/lolimg67">twi</a></td>
       <td>🚪188（送视频单10min），有各种丝袜 衣服洛丽塔/汉服/jk都有</td>
     </tr>
-    <tr data-tags="视频陪">
-      <td>小熊</td>
-      <td><a href="https://twitter.com/mgxiaoxiong">twi</a></td>
-      <td></td>
-    </tr>
-    <tr data-tags="视频陪">
-      <td>慢慢</td>
-      <td><a href="https://twitter.com/LoveMeoRou">twi</a></td>
-      <td></td>
-    </tr>
-    <tr data-tags="视频陪">
-      <td>小酒</td>
-      <td><a href="https://twitter.com/xiaojiu06">twi</a></td>
-      <td></td>
-    </tr>
-    <tr data-tags="女喘陪">
-      <td>乖</td>
+    <tr class="audio" data-tags="女喘陪">
+      <td>𝙔𝙡.乖</td>
       <td><a href="https://twitter.com/xiaoxiao474">twi</a></td>
-      <td></td>
+      <td>🚪188（音频福利或磕20min二选一） 接磕炮有小玩具可远控，音频定制</td>
     </tr>
-    <tr data-tags="绿色陪">
-      <td>十四</td>
-      <td></td>
-      <td></td>
+    <tr class="green" data-tags="绿色陪">
+      <td>𝙔𝙡.林甜</td>
+      <td><a href="https://v.douyin.com/iN4fYmSm/">dy</a></td>
+      <td>🚪118送半小时语聊，接连麦/哄睡/王者/永劫</td>
     </tr>
-  </table>
+  </tbody>
+</table>
 
 <script>
+  function toggleInfo() {
+    var info = document.querySelector('.info');
+    info.style.display = info.style.display === 'none' ? 'block' : 'none';
+  }
+
   function filterByTag() {
     var selectedTag = document.getElementById("tagSelect").value;
-    var rows = document.getElementById("myTable").getElementsByTagName("tr");
+    var rows = document.querySelectorAll("#myTable tbody tr");
 
-    for (var i = 1; i < rows.length; i++) {
-      var tags = rows[i].getAttribute("data-tags").split(" ");
-      rows[i].style.display = tags.includes(selectedTag) ? "" : "none";
-    }
+    rows.forEach(function(row) {
+      var tags = row.getAttribute("data-tags").split(" ");
+      row.style.display = tags.includes(selectedTag) ? "" : "none";
+    });
   }
 
   function filterByKeyword() {
     var keyword = document.getElementById("keywordInput").value.toUpperCase();
-    var rows = document.getElementById("myTable").getElementsByTagName("tr");
+    var rows = document.querySelectorAll("#myTable tbody tr");
 
-    for (var i = 1; i < rows.length; i++) {
-      var cells = rows[i].getElementsByTagName("td");
+    rows.forEach(function(row) {
+      var cells = row.getElementsByTagName("td");
       var found = false;
-      for (var j = 0; j < cells.length; j++) {
-        if (cells[j].textContent.toUpperCase().indexOf(keyword) > -1) {
+      Array.from(cells).forEach(function(cell) {
+        if (cell.textContent.toUpperCase().indexOf(keyword) > -1) {
           found = true;
-          break;
         }
-      }
-      rows[i].style.display = found ? "" : "none";
-    }
+      });
+      row.style.display = found ? "" : "none";
+    });
   }
 </script>
 
